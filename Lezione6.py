@@ -11,20 +11,26 @@ class CSVFile():
         except:
             print('ERRORE')
 
-        if()
-        data=[]
-        file=open(self.name, 'r')
-        for line in file:
-            elements = line.split(',')
-            elements[-1] = elements[-1].strip()
-            
-            if elements[0] != 'Date':
-                data.append(elements)
-        file.close()
-        return data
+        if(start!=None and end!=None):
+            s=int(start)
+            e=int(end)
+            c=0
+            data=[]
+            file=open(self.name, 'r')
+
+            for line in file:
+                if(c in range(s, e)):
+                    elements = line.split(',')
+                    elements[-1] = elements[-1].strip()
+                    
+                    if elements[0] != 'Date':
+                        data.append(elements)
+                c=c+1
+            file.close()
+            return data
 
       
 file = CSVFile('shampoo_sales.csv')
-print('Dati: "{}"'.format(file.getdata()))
+print('Dati: "{}"'.format(file.getdata(0, 5)))
 
-file1= CSVFile(5)
+#file1= CSVFile(5)
