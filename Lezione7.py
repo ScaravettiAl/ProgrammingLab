@@ -39,9 +39,13 @@ class CSVFile():
                     data.append(elements)
         file.close()
         return data
-
       
 file = CSVFile('shampoo_extract.csv')
-print('Dati: "{}"'.format(file.getdata(0, 5)))
+file1= CSVFile('extract2.csv')
+file2= CSVFile('shampoo_sales.csv')
 
-#file1= CSVFile(5)
+if not (file.getdata() == file1.getdata()):
+    raise Exception('Test non passato')
+if not(file.getdata() == file2.getdata()):
+    raise Exception('Test non passato')
+

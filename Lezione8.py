@@ -1,4 +1,3 @@
-
 class CSVFile():
     def __init__(self, name):
         self.name = name
@@ -45,17 +44,29 @@ class NumericalCSVFile(CSVFile):
 
         return numerical_data
 
-file = CSVFile('shampoo_extract.csv')
-print('Dati: "{}"'.format(file.getdata()))
+class Model():
+    def fit(self, data):
+        raise NotImplementationError('Metodo non implementato')
 
-file_numerico=NumericalCSVFile('shampoo_extract.csv')
-print('Dati: "{}"'.format(file_numerico.getdata()))
+    def predict(self, data):
+        raise NotImplementationError('Metodo non implementato')
 
-#file1=CSVFile('test,csv')
-#print('Dati: "{}"'.format(file1.getdata()))
-
-#extra
-
-#v=file_numerico.getdata()
-#x=v[0]
-#print(x[1])
+class IncrementModel(Model):
+    def predict(self, data):
+        l=[]
+        for i in data:
+            y=data[i]
+            l.append(y[1])
+            
+        i=0
+        x=0
+        c=0
+        for item in l:
+            if(i!=0):
+                x=x + l[i]-l[i-1]
+                print(x)
+                c+=1
+            i+=1
+        prevision= (x/c) + l[i-1]
+       
+        return prediction
