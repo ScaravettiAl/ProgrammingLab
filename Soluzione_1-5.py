@@ -84,7 +84,7 @@ class NumericalCSVFile(CSVFile):
         for string_row in string_data:
             
             # Preparo una lista di supporto per salvare la riga
-            # in "formato" nuumerico (tranne il primo elemento)
+            # in "formato" numerico (tranne il primo elemento)
             numerical_row = []
             
             # Ciclo su tutti gli elementi della riga con un

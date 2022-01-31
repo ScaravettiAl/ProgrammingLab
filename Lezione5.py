@@ -8,7 +8,7 @@ class CSVFile():
         try:
             file=open(self.name, 'r')
             file.readline()
-        except:
+        except Exception as e:
             print('ERRORE')
 
         data=[]
