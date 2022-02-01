@@ -53,20 +53,40 @@ class Model():
 
 class IncrementModel(Model):
     def predict(self, data):
-        l=[]
-        for i in data:
-            y=data[i]
-            l.append(y[1])
-            
+        n=0
+        x=len(data)-1
+        for i in range(1,3):
+            n+=data[x]-data[x-1]
+
+            x=x-1
+        return (n/2)+data[len(data)-1]
+
+class FitIncrementModel(IncrementModel):
+    def fit(self, data):
         i=0
-        x=0
-        c=0
-        for item in l:
-            if(i!=0):
-                x=x + l[i]-l[i-1]
-                print(x)
-                c+=1
-            i+=1
-        prevision= (x/c) + l[i-1]
-       
-        return prediction
+        n=0
+        
+        for item in data:
+            if(i<len(data)-1):
+                n += data[i+1]-data[i]
+        
+                i+=1
+        return n  
+
+    def predict(self, n, data):
+        return n/(len(data)-1)+data[len(data)-1]
+        
+
+sales=[]
+file_numerico=NumericalCSVFile('shampoo_sales.csv')
+lista_num=file_numerico.getdata()
+for i,element in lista_num:
+    sales.append(element)
+print(sales)
+
+modello1=IncrementModel()
+print(modello1.predict(sales))
+
+modello2=FitIncrementModel()
+n=modello2.fit(sales)
+print(modello2.predict(n, sales))

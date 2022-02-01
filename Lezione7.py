@@ -49,3 +49,7 @@ if not (file.getdata() == file1.getdata()):
 if not(file.getdata() == file2.getdata()):
     raise Exception('Test non passato')
 
+try:
+    print(file.name)
+except Exception as e:
+    print('{}'.format(e))
