@@ -90,3 +90,10 @@ print(modello1.predict(sales))
 modello2=FitIncrementModel()
 n=modello2.fit(sales)
 print(modello2.predict(n, sales))
+
+"""
+from matplotlib import pyplot
+pyplot.plot(sales + [modello2.predict(n, sales)], color='tab:red')
+pyplot.plot(sales, color='tab:blue')
+pyplot.show
+"""
