@@ -53,13 +53,15 @@ class Model():
 
 class IncrementModel(Model):
     def predict(self, data):
+        i=0
         n=0
-        x=len(data)-1
-        for i in range(1,3):
-            n+=data[x]-data[x-1]
-
-            x=x-1
-        return (n/2)+data[len(data)-1]
+        
+        for item in data:
+            if(i<len(data)-1):
+                n += data[i+1]-data[i]
+        
+                i+=1
+        return n/(len(data)-1)+data[-1]
 
 class FitIncrementModel(IncrementModel):
     def fit(self, data):
@@ -71,11 +73,14 @@ class FitIncrementModel(IncrementModel):
                 n += data[i+1]-data[i]
         
                 i+=1
-        return n  
+        self.avg_increment= n/(len(data)-1)
 
-    def predict(self, n, data):
-        return n/(len(data)-1)+data[len(data)-1]
-        
+    def predict(self, data):
+        parent_predict=super().predict(data)
+        parent_predict_increment = parent_predict - data[-1]
+        pred_increment=(self.avg_increment+parent_predict_increment)/2
+        prev= data[-1]+pred_increment
+        return prev
 
 sales=[]
 file_numerico=NumericalCSVFile('shampoo_sales.csv')
@@ -107,8 +112,8 @@ s=0
 e=23
 terr=0
 for i in range(24, 36):
-    n=modello2.fit(sales[s:e])
-    x=modello2.predict(n, sales[s:e])
+    modello2.fit(sales[s:e-3])
+    x=modello2.predict(sales[e-3:e])
     print('Fit:{}'.format(x))
     print('Valore effettivo: {}'.format(sales[i]))
     err=abs(x-sales[i])
