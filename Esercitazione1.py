@@ -10,15 +10,12 @@ class MovingAverage():
         e=self.n
         while e <= l:
             for i in range(s, e):
-                print(i)
                 r+=lista[i]
-        
-        res.append(r/self.n)
-        print(i)
-        print(res)
-        s+=1
-        e+=1
-        c+=1
+            res.append(r/self.n)
+            print(res)
+            s+=1
+            e+=1
+            r=0
         return res
 
 moving_average = MovingAverage(2)
