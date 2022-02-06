@@ -16,9 +16,9 @@ class CSVFile:
         try:
             my_file = open(self.name, 'r')
             my_file.readline()
-        except Exception as e:
+        except: #Exception as e:
             self.can_read = False
-            print('Errore in apertura del file: "{}"'.format(e))
+            #print('Errore in apertura del file: "{}"'.format(e))
 
 
     def get_data(self):
@@ -120,7 +120,7 @@ class NumericalCSVFile(CSVFile):
 #  Corpo del programma
 #==============================
 
-mio_file = CSVFile(name='shampoo_sales.csv')
+mio_file = CSVFile(name='shampoo_sals.csv')
 print('Nome del file: "{}"'.format(mio_file.name))
 print('Dati contenuti nel file: "{}"'.format(mio_file.get_data()))
 

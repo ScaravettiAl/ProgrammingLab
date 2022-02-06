@@ -1,9 +1,18 @@
+class ExamException(Exception):
+    pass
+
 class MovingAverage():
     def __init__(self, n):
         self.n= n
+        try:
+            int(self.n)
+        except:
+            raise ExamException('Errore')
     
     def compute(self, lista):
         l= len(lista)
+        if l== 0:
+            raise ExamException('Errore, lista vuota')
         res=[]
         r=0
         s=0
