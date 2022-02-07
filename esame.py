@@ -68,7 +68,7 @@ class CSVTimeSeriesFile(CSVFile):
                         if int(element)>0:
                             numerical_row.append(int(element))
                     except:
-                         pass
+                        pass
 
             if len(numerical_row) == len(string_row):
                 numerical_data.append(numerical_row)
