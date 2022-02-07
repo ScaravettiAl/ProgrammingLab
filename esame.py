@@ -15,7 +15,8 @@ class CSVFile:
         
 
     def get_data(self):
-        
+        i=0
+        tmp=[]
         if not self.can_read:
             raise ExamException('Errore, file inesistente')
 
@@ -28,8 +29,10 @@ class CSVFile:
                 elements[-1] = elements[-1].strip()
 
                 if elements[0] != 'date':
-                    data.append(elements)
-            
+                    for i in range(0,2):
+                        tmp.append(elements[i])
+                    data.append(tmp)
+                    tmp=[]
             my_file.close()
             return data
 
@@ -46,7 +49,6 @@ class CSVTimeSeriesFile(CSVFile):
             numerical_row = []
 
             for i,element in enumerate(string_row):
-                print(enumerate(string_row))
                 if i == 0:
                     numerical_row.append(element)
                     y_e_m=element.split('-')
@@ -54,7 +56,7 @@ class CSVTimeSeriesFile(CSVFile):
                     month=int(y_e_m[1])
                     if cfr_year>year:
                         raise ExamException('Errore, date fuori ordine')
-                    if cfr_year==year and cfr_month>=month:
+                    if cfr_year==year and cfr_month>month:
                         raise ExamException('Errore, date fuori ordine')
                     cfr_year=year
                     cfr_month=month
@@ -62,28 +64,11 @@ class CSVTimeSeriesFile(CSVFile):
                         raise ExamException('Errore, duplicato trovato')
                     check_data=element
                 else:
-                    print(element)
                     try:
                         if int(element)>0:
                             numerical_row.append(int(element))
                     except:
                          pass
-                    """
-                    try:
-                        print(element)
-                        dati=element.split(',')
-                        print(dati[0])
-                        try:
-                            if int(dati[0])>0:
-                                numerical_row.append(int(dati[0]))
-                        except:
-                            pass
-                    except:
-                        try:
-                            if int(element)>0:
-                                numerical_row.append(int(element))
-                        except:
-                            pass"""
 
             if len(numerical_row) == len(string_row):
                 numerical_data.append(numerical_row)
@@ -116,10 +101,11 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
                 if string_row[1]==i:
                     tmp.append(string_row[2])
                 check= True
+
         if check == False:
             raise ExamException('Errore, anno non trovato')
 
-        if len(tmp)-1==0:
+        if len(tmp)==1:
             avg.append(0)
         else:
             for i in range(0, len(tmp)-1):
@@ -135,4 +121,4 @@ time_series_file=CSVTimeSeriesFile(name='data.csv')
 time_series= time_series_file.get_data()
 print(time_series)
 print('----------------------')
-print(compute_avg_monthly_difference(time_series, '1949', '1950'))
+print(compute_avg_monthly_difference(time_series, '1949', '1951'))
