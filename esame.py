@@ -13,13 +13,11 @@ class CSVFile:
         except:
             self.can_read = False
         
-
     def get_data(self):
         i=0
         tmp=[]
         if not self.can_read:
             raise ExamException('Errore, file inesistente')
-
         else:
             data = []
             my_file = open(self.name, 'r')
@@ -85,8 +83,10 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
         raise ExamException('Errore, anno in input non di tipo str')
     if not type(last_year) is str:
         raise ExamException('Errore, anno in input non di tipo str')
+    if int(first_year)>int(last_year):
+        raise ExamException('Errore, inserimento anni')
     new_time_series=[]
-    for string_row in time_series:                              #trasformo la data in valori interi
+    for string_row in time_series:                        #trasformo la data in valori interi
         new_data=[]
         for i,element in enumerate(string_row):
             if i==0:
