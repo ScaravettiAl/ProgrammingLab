@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class ExamException(Exception):
     pass
     
@@ -13,11 +15,13 @@ class CSVFile:
         except:
             self.can_read = False
         
+
     def get_data(self):
         i=0
         tmp=[]
         if not self.can_read:
             raise ExamException('Errore, file inesistente')
+
         else:
             data = []
             my_file = open(self.name, 'r')
@@ -50,13 +54,11 @@ class CSVTimeSeriesFile(CSVFile):
             numerical_row = []                  
 
             for i,element in enumerate(string_row):
-                #if i==0 and not '-' in element:
-                #    pass
-                if i==0 and '-' in element:
+                if i == 0 and '-' in element:
                     numerical_row.append(element)
-                    y_e_m=element.split('-')            #divido la data e faccio i controlli per date fuori posto o duplicati
-                    year=int(y_e_m[0])
-                    month=int(y_e_m[1])
+                    y_e_m=datetime.strptime(element, '%Y-%m')            #divido la data e faccio i controlli per date fuori posto o duplicati
+                    year=y_e_m.year
+                    month=y_e_m.month
                     
                     if cfr_year>year:
                         raise ExamException('Errore, date fuori ordine')
@@ -83,16 +85,14 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
         raise ExamException('Errore, anno in input non di tipo str')
     if not type(last_year) is str:
         raise ExamException('Errore, anno in input non di tipo str')
-    if int(first_year)>int(last_year):
-        raise ExamException('Errore, inserimento anni')
     new_time_series=[]
-    for string_row in time_series:                        #trasformo la data in valori interi
+    for string_row in time_series:                              #trasformo la data in valori interi
         new_data=[]
         for i,element in enumerate(string_row):
             if i==0:
-                dat=element.split('-')
-                new_data.append(int(dat[0]))
-                new_data.append(int(dat[1]))
+                dat=datetime.strptime(element, '%Y-%m')
+                new_data.append(dat.year)
+                new_data.append(dat.month)
             else:
                 new_data.append(element)
         new_time_series.append(new_data)
@@ -125,6 +125,6 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
 #print(test.get_data())
 time_series_file=CSVTimeSeriesFile(name='data.csv')
 time_series= time_series_file.get_data()
-print(time_series)
-print('----------------------')
+#print(time_series)
+#print('----------------------')
 print(compute_avg_monthly_difference(time_series, '1949', '1951'))
